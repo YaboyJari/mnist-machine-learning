@@ -1,12 +1,14 @@
 import io from 'socket.io-client';
 const predictContainer = document.getElementById('predictContainer');
 const predictButton = document.getElementById('predict-button');
+const classNames = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
 
 const socket =
     io('http://localhost:3000',
        {reconnectionDelay: 300, reconnectionDelayMax: 300});
 
 predictButton.onclick = () => {
+      // Get a surface
   predictButton.disabled = true;
   socket.emit('predictSample');
 };
@@ -22,8 +24,12 @@ socket.on('trainingComplete', () => {
   predictContainer.style.display = 'block';
 });
 
-socket.on('predictResult', (result) => {
-  plotPredictResult(result);
+socket.on('predictResult', async (result) => {
+    const [preds, labels] = result;
+    const surface = tfvis.visor().surface({ name: 'ClassAccuracy', tab: 'Charts' });
+    const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, preds);
+    tfvis.render.perClassAccuracy(surface, classAccuracy, classNames);
+    labels.dispose();
 });
 
 socket.on('disconnect', () => {
@@ -31,9 +37,3 @@ socket.on('disconnect', () => {
   predictContainer.style.display = 'none';
   document.getElementById('waiting-msg').style.display = 'block';
 });
-
-function plotPredictResult(result) {
-  predictButton.disabled = false;
-  document.getElementById('predictResult').innerHTML = result;
-  console.log(result);
-}

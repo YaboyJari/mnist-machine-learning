@@ -2,6 +2,10 @@ const tf = require('@tensorflow/tfjs');
 const mnist = require('./mnist');
 
 let myModel;
+const learningRate = 0.003;
+const epochs = 50;
+const batchSize = 4000;
+const validationSplit = 0.2;
 
 const createModel = (learningRate) => {
     const model = tf.sequential();
@@ -46,11 +50,6 @@ const trainModel = async (model, train_features, train_label, epochs, batchSize 
 };
 
 exports.startTraining = async () => {
-    const learningRate = 0.003;
-    const epochs = 50;
-    const batchSize = 4000;
-    const validationSplit = 0.2;
-
     const data = await mnist.getTensorData('mnist_train.csv');
 
     myModel = createModel(learningRate);

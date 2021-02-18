@@ -1,26 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TensorFlow.js Tutorial</title>
-
-    <!-- Import TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
-    <!-- Import tfjs-vis -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
-
-    <!-- Import the data file -->
-    <script src="data.js" type="module"></script>
-
-    <!-- Import the main script file -->
-    <script src="script.js" type="module"></script>
-
-</head>
-
-<body>
-</body>
-
+  <head>
+    <title>TensorFlow.JS <Hands-on></Hands-on></title>
+  </head>
+  <body>
+    <h3 id="waiting-msg">Waiting for server...</h3>
+    <p>
+    <span style="font-size:16px" id="trainingStatus"></span>
+    <p>
+    <div id="predictContainer" style="font-size:16px;display:none">
+      <button style="font-size:18px;padding:5px;margin-right:10px" id="predict-button">Run Test Data</button><p>
+    </div>
+    <script src="dist/bundle.js"></script>
+    <style>
+      html,
+      body {
+        font-family: Roboto, sans-serif;
+        color: #5f6368;
+      }
+      body {
+        background-color: rgb(248, 249, 250);
+      }
+    </style>
+  </body>
 </html>

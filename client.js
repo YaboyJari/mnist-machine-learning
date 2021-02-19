@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+
 const predictContainer = document.getElementById('predictContainer');
 const predictButton = document.getElementById('predict-button');
 const classNames = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
@@ -25,10 +26,12 @@ socket.on('trainingComplete', () => {
 });
 
 socket.on('predictResult', async (result) => {
-    const [preds, labels] = result;
+    let [preds, labels] = result;
+    labels = tf.tensor1d(labels);
+    preds = tf.tensor1d(preds);
     const surface = tfvis.visor().surface({ name: 'ClassAccuracy', tab: 'Charts' });
     const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, preds);
-    tfvis.render.perClassAccuracy(surface, classAccuracy, classNames);
+    await tfvis.show.perClassAccuracy(surface, classAccuracy, classNames);
     labels.dispose();
 });
 

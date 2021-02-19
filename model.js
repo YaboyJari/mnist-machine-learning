@@ -35,17 +35,12 @@ const createModel = (learningRate) => {
     return model
 };
 
-function onBatchEnd(batch, logs) {
-    console.log('Accuracy', logs.acc);
-  }
-
 const trainModel = async (model, train_features, train_label, epochs, batchSize = null, validationSplit = 0.1) => {
     return await model.fit(train_features, train_label, {
         batchSize,
         epochs,
         shuffle: true,
         validationSplit,
-        callbacks: {onBatchEnd},
       });
 };
 
@@ -62,5 +57,7 @@ exports.predictResult = async () => {
     const data = await mnist.getTensorData('mnist_test.csv');
     const testLabels = data.y_labels;
     const predictions = myModel.predict(data.x_features, {batchSize: batchSize}).argMax(-1);
-    return [predictions, testLabels];
+    const labelData = Array.from(testLabels.dataSync());
+    const predictionData = Array.from(predictions.dataSync());
+    return [predictionData, labelData];
 };

@@ -9,12 +9,11 @@ const validationSplit = 0.2;
 
 const createModel = (learningRate) => {
     const model = tf.sequential();
-    model.add(tf.layers.dense({
+    model.add(tf.layers.flatten({
         inputShape: [28, 28],
         units: 32,
         useBias: true,
     }));
-    model.add(tf.layers.flatten());
     model.add(tf.layers.dense({
         units: 32,
         activation: 'relu',

@@ -21,9 +21,9 @@ async function run() {
     });
   });
 
-  await model.startTraining()
+  const hist = await model.startTraining()
 
-  io.emit('trainingComplete', true);
+  io.emit('trainingComplete', hist);
 }
 
 run();

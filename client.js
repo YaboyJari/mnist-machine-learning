@@ -20,8 +20,10 @@ socket.on('connect', () => {
     document.getElementById('trainingStatus').innerHTML = 'Training in Progress';
 });
 
-socket.on('trainingComplete', () => {
+socket.on('trainingComplete', (hist) => {
   document.getElementById('trainingStatus').innerHTML = 'Training Complete';
+  const surface = tfvis.visor().surface({ name: 'History', tab: 'Charts' });
+  tfvis.show.history(surface, hist, ['loss', 'acc']);
   predictContainer.style.display = 'block';
 });
 

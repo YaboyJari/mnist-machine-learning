@@ -44,12 +44,16 @@ const trainModel = async (model, train_features, train_label, epochs, batchSize 
       });
 };
 
+const castTensorToArray = (data) => {
+    return Array.from(data.dataSync());
+}
+
 exports.startTraining = async () => {
     const data = await mnist.getTensorData('mnist_train.csv');
 
     myModel = createModel(learningRate);
 
-    await trainModel(myModel, data.x_features, data.y_labels, 
+    return await trainModel(myModel, data.x_features, data.y_labels, 
         epochs, batchSize, validationSplit);
 };
 
@@ -57,7 +61,7 @@ exports.predictResult = async () => {
     const data = await mnist.getTensorData('mnist_test.csv');
     const testLabels = data.y_labels;
     const predictions = myModel.predict(data.x_features, {batchSize: batchSize}).argMax(-1);
-    const labelData = Array.from(testLabels.dataSync());
-    const predictionData = Array.from(predictions.dataSync());
+    labelData = castTensorToArray(testLabels);
+    predictionData = castTensorToArray(predictions);
     return [predictionData, labelData];
 };
